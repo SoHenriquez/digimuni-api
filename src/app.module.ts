@@ -10,18 +10,18 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { JoiValidationSchema } from './config/joi.validation';
-
+import { MongooseModule } from '@nestjs/mongoose';
 @Module({
   imports: [
     ConfigModule.forRoot({
       /* envFilePath: enviroments[process.env.NODE_ENV] || '.env', */
       load: [EnvConfiguration, config],
       validationSchema: JoiValidationSchema,
-      
     }),
+    MongooseModule.forRoot('mongodb://localhost:27017/digimuni-v2'),
     SocialApiModule,
     CommonModule,
-    AuthModule
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
