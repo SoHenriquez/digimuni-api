@@ -6,6 +6,7 @@ import { PaginationDto } from 'src/common/dto/pagination.dto';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService {
@@ -22,8 +23,11 @@ export class UsersService {
   
   async create(createUserDto: CreateUserDto) {
     try {
-      const user = await this.userModel.create( createUserDto );
-      return user;
+      const { password, ...rta } = createUserDto;
+      const hashPassword = await bcrypt.hash( password, 10);
+      createUserDto = {...createUserDto, password:hashPassword };
+      await this.userModel.create( createUserDto );
+      return rta;
     } catch (error) {
         this.handleExceptions(error);
     }
