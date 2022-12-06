@@ -7,7 +7,7 @@ import { MongoIdPipe } from 'src/common/pipes/mongo-id/mongo-id.pipe';
 
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly usersService: UsersService) { }
 
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
@@ -15,8 +15,8 @@ export class UsersController {
   }
 
   @Get()
-  findAll( @Query() paginationDto: PaginationDto) {
-    return this.usersService.findAll( paginationDto );
+  findAll(@Query() paginationDto: PaginationDto) {
+    return this.usersService.findAll(paginationDto);
   }
 
   @Get(':id')
