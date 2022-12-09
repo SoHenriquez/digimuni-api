@@ -8,7 +8,7 @@ import { User } from 'src/modules/social-api/users/entities/user.entity';
 export class AuthController {
     constructor(private authService: AuthService) { }
 
-    @UseGuards(AuthGuard('local')) //Strategy local
+    @UseGuards(AuthGuard('local')) //local Strategy 
     @Post('login')
     @HttpCode(200)
     login(@Req() req: Request) {
