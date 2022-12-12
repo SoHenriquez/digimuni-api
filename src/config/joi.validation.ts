@@ -6,4 +6,4 @@ export const JoiValidationSchema = Joi.object({
     DEFAULT_LIMIT: Joi.number().default(6),
     API_KEY: Joi.string().required(),
     JWT_SECRET: Joi.string().required(),
-})
+})        
