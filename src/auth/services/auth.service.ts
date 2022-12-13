@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable, forwardRef } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 
@@ -9,6 +9,7 @@ import { PayloadToken } from './../models/token.model';
 @Injectable()
 export class AuthService {
     constructor(
+        @Inject(forwardRef(() => UsersService))
         private usersService: UsersService,
         private jwtService: JwtService
     ) { }
@@ -16,13 +17,15 @@ export class AuthService {
     async validateUser(email: string, password: string) {
 
         const user = await this.usersService.findByEmail(email);
-
+        
         if (user) {
             const isMatch = await bcrypt.compare(password, user.password);
             if (isMatch) {
                 const token = await this.generateJWT(user);
+                const rta = user.toJSON();
+                const { password, ...rt } = rta; //Sacar password
                 return {
-                    user,
+                    rt,
                     token,
                 };
             }
